@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder {
         {
             echo 'Group already exists';
         }
-        
+
 
         try
         {
@@ -59,7 +59,7 @@ class DatabaseSeeder extends Seeder {
             $group = Sentry::getGroupProvider()->create(array(
             'name'        => 'students',
                 'permissions' => array(
-                    'see_tutorial'=> 1,                    
+                    'see_tutorial'=> 1,
                     'do_exam' =>1,
                     'see_result' => 1
                     ),
@@ -101,7 +101,7 @@ class DatabaseSeeder extends Seeder {
         } catch (Cartalyst\Sentry\Users\UserExistsException $e) {
             echo 'User with this login already exists.';
         } catch (Cartalyst\Sentry\Groups\GroupNotFoundException $e) {
-            echo 'Group was not found.';        }  
+            echo 'Group was not found.';        }
             $admin = Sentry::getGroupProvider()->findByName('admin');
             $tea = Sentry::getGroupProvider()->findByName('teachers');
             $stu = Sentry::getGroupProvider()->findByName('students');
@@ -112,8 +112,8 @@ class DatabaseSeeder extends Seeder {
             $user->addGroup($stu);
             unset($admin);
             unset($user);
-        $this -> call('TeacherTableSeeder');    
-        $this -> call('StudentTableSeeder');        
+        $this -> call('TeacherTableSeeder');
+        $this -> call('StudentTableSeeder');
         $this->call('SubjectTableSeeder');
     }
 

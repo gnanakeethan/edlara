@@ -25,17 +25,17 @@ Route::get('logout','UserController@logout');
 
 
 //API Subdomain
-Route::group(array('domain' => 'api.'.Setting::get('system.siteurlshort')),function(){
-    $environment = App::environment();
-    if($environment == 'production'){
-        header('Access-Control-Allow-Origin: *');  
-    }
-    Route::get('/',array('before'=>'api_check','uses'=>'ApiController@index'));
-    Route::get('/tutorials.json',array('before'=>'api_check','uses'=>'ApiController@tutorials'));
-    Route::get('/tutorial/{id}.json',array('before'=>'api_check','uses'=>'ApiController@tutorial'));
-    Route::get('/exams.json',array('before'=>'api_check','uses'=>'ApiController@exams'));
-    Route::get('/exam/{id}',array('before'=>'api_check','uses'=>'ApiController@exam'));
-});
+// Route::group(array('domain' => 'api.'.Setting::get('system.siteurlshort')),function(){
+//     $environment = App::environment();
+//     if($environment == 'production'){
+//         header('Access-Control-Allow-Origin: *');
+//     }
+//     Route::get('/',array('before'=>'api_check','uses'=>'ApiController@index'));
+//     Route::get('/tutorials.json',array('before'=>'api_check','uses'=>'ApiController@tutorials'));
+//     Route::get('/tutorial/{id}.json',array('before'=>'api_check','uses'=>'ApiController@tutorial'));
+//     Route::get('/exams.json',array('before'=>'api_check','uses'=>'ApiController@exams'));
+//     Route::get('/exam/{id}',array('before'=>'api_check','uses'=>'ApiController@exam'));
+// });
 
 
 
@@ -60,7 +60,7 @@ Route::group(array('domain' => '{dashboard}.laravel.dev'), function () {
     Route::get('tutorial/update/{id}/{attachmentname}/{mode}',array('before'=>'teacher','uses'=>'TutorialsController@attachmentHandler'));
     Route::get('assessment/{id}',array('before'=>'teacher','uses'=>'HttpController@assessmentupdateget'));
     Route::get('/assessment-{aid}/exam-{eid}/markup',array('before'=>'teacher','uses'=>'ExamController@markExam'));
-    
+
 
     Route::get('/exam/edit/{id}',array('before'=>'teacher','uses'=>'HttpController@examupdateget'));
     Route::get('/exam/view/{id}',array('before'=>'teacher',function($dash,$id){
@@ -105,7 +105,7 @@ Route::group(array('domain' => '{dashboard}.laravel.dev'), function () {
 
     Route::post('/exam/edit/0',array('before'=>'csrf|teacher','uses'=>'ExamController@createExam'));
     Route::post('/exam/edit/{id}',array('before'=>'csrf|teacher','uses'=>'ExamController@updateExam'));
-    
+
     Route::post('settings', array('before'=>'csrf|admin', 'uses'=>'SettingsController@update'));
     Route::get('clearcache',array('before'=>'admin',function(){
         Artisan::call('cache:clear');
@@ -131,7 +131,7 @@ Route::group([],function(){
 
 
     Route::get('/activateuser/{hash}/{email}',function($hash,$email){
-        
+
         $login =$email;
         try
         {
@@ -152,7 +152,7 @@ Route::group([],function(){
         }
         catch (Cartalyst\Sentry\Users\UserNotFoundException $e)
         {
-            \Log::warning($login.' \'s account wasnt found in the system. Tried to activate the account.');            
+            \Log::warning($login.' \'s account wasnt found in the system. Tried to activate the account.');
             return View::make('account.activation')->with('error','notfound');
         }
         catch (Cartalyst\Sentry\Users\UserAlreadyActivatedException $e)
@@ -171,7 +171,7 @@ Route::group([],function(){
 
     // Accept Reset POST
     Route::post('acceptreset',['before'=>'csrf','uses'=>'UserController@acceptReset']);
-    
+
     // Accept Reset GET
     Route::get('acceptreset',function(){
         return View::make('account.acceptreset');
@@ -199,10 +199,10 @@ Route::group([],function(){
     Route::get('profiles',function(){
         return;
     });
-    
+
     // User Show Profile
     Route::get('profile/{id?}','UserController@showProfile')->where('id', '[0-9]+');
-    
+
     // User Profile Edit
     Route::get('profile/{id?}?edit=true',array('uses'=>'UserController@editProfile','before'=>'auth'));
 
@@ -283,7 +283,7 @@ Route::get('assessment/update',array( 'before'=>'student','uses'=>'AssessmentCon
 Route::get('assessment/update/{id}',array( 'before'=>'student','uses'=>'AssessmentController@updateView'));
 
 // Get About Us page
-Route::get('/aboutus',function(){   
+Route::get('/aboutus',function(){
     $theme = Theme::uses('site')->layout('default');
     $theme->appendTitle('- About Us');
     return $theme->scope('about.about')->render();
@@ -306,7 +306,7 @@ Route::get('contactus',function(){
 // Go Home Redirect
 Route::get('gohome',function(){
     return Redirect::route('home');
-}); 
+});
 // Go Dashboard Redirect
 Route::get('dash',function(){
     return Redirect::to('http://'.Setting::get('system.dashurlshort','dashboard').'.'.Setting::get('system.siteurlshort'));

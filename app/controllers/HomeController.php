@@ -7,7 +7,7 @@ class HomeController extends BaseController {
 	{
 		$theme = Theme::uses('site')->layout('default');
 		$theme->setTitle('Home');
-		
+
 		Cache::forget('latest_tr_slides');
 		Cache::forget('tutorials');
 		Cache::forget('latest_tutorials');
@@ -20,12 +20,12 @@ class HomeController extends BaseController {
 				return DB::select(DB::raw('SELECT tutorialid FROM assessments GROUP BY tutorialid HAVING(COUNT(*)) ORDER BY COUNT(*) DESC LIMIT 5 ;'));
 			});
 			$out ='';
-			if($tutorials == null) {
+			if($tutorials == null ) {
 				return $out;
 			}
 			foreach ($tutorials as $tutorial_t){
 				$out .= "<div>";
-				$tutorial = Tutorials::find($tutorial_t->tutorialid);
+				$tutorial = Tutorials::findOrFail($tutorial_t->tutorialid);
 				$string = $tutorial->content;
 				$string = (strlen($string) > 753) ? substr($string,0,750).'...' : $string;
 				$string = wordwrap($string,200,"<br>\n");
@@ -50,7 +50,7 @@ $latest_tutorials = Cache::remember('latest_tutorials',20,function(){
 	foreach ($tutorials as $tutorial_t){
 		$tutorial = Tutorials::find($tutorial_t->id);
 		$string = $tutorial->content;
-		$string = preg_replace("/<img[^>]+\>/i", "", $string); 
+		$string = preg_replace("/<img[^>]+\>/i", "", $string);
 		$images = self::getTutorialImages($tutorial->content);
 		if($images == null) {
 			// continue;
@@ -78,12 +78,12 @@ $topstudents = Cache::remember('topstudents',20,function(){
 	if($topstudentlist == null){
 		return $out;
 	}
-	
+
 	foreach ($topstudentlist as $student){
 		$user = User::find($student->sid);
 		$url = Gravatarer::make( [
-			'email' => $user->email, 
-			'size' => 200, 
+			'email' => $user->email,
+			'size' => 200,
 			'defaultImage' => 'mm',
 			'rating' => 'g',
 			])->url();
@@ -91,7 +91,7 @@ $topstudents = Cache::remember('topstudents',20,function(){
 		$out .= "<img style='clear:left;' class='avatar' alt='".$user->email."' src='".$url."'/>
 		<br><strong>Name:</strong>".$user->first_name.' '.$user->last_name.'';
 		$out .= "<br><label class='label label-success'>Average Score</label> is ".(int)$student->average."";
-		$out .= "</div>";			
+		$out .= "</div>";
 	}
 	return $out;
 });
