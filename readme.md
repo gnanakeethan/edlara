@@ -1,10 +1,10 @@
-##CODEFEST 2013
-####/*Code Your Way to Smarter World*/
+## CODEFEST 2013
+#### /*Code Your Way to Smarter World*/
 This Application has been developed for CODEFEST 2013.http://codefest.lk/
 
-####The Application has successfully won 2nd Place at the Finals @SLIIT Campus held on 25th October 2013.
+#### The Application has successfully won 2nd Place at the Finals @SLIIT Campus held on 25th October 2013.
 
-###The Features of The Application
+### The Features of The Application
 
 1. Standard User Management
 	1. Create User.
