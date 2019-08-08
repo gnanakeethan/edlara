@@ -16,7 +16,7 @@ return array(
 	|
 	*/
 
-	'driver' => 'cookie',
+	'driver' => 'native',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -120,6 +120,6 @@ return array(
 	|
 	*/
 
-	'domain' => "laravel.dev",
+	'domain' => "edlara.test",
 
 );

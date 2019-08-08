@@ -24,11 +24,11 @@ return array(
 
     "adminsitename" => "JHC - eLearning Admin",
 
-    "dashurl"=>"https://dashboard.laravel.dev",
+    "dashurl"=>"dash.edlara.test",
 
     "cache"=>'30',
 
-    "dashurlshort"=>'dashboard',
+    "dashurlshort"=>'dash',
 
-    "siteurlshort"=>'laravel'
+    "siteurlshort"=>'edlara.test'
 );

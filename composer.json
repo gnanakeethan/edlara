@@ -12,6 +12,9 @@
             "role": "Lead-Developer"
         }
     ],
+    "repositories":[ 
+        {"type":"vcs","url":"https://github.com/iandroogmans/philf-setting"}
+    ],
     "require": {
         "laravel/framework": "4.0.*",
         "cartalyst/sentry": "2.0.*",
@@ -35,7 +38,6 @@
     },
     "scripts": {
         "pre-update-cmd": [
-            "php artisan clear-compiled"
         ],
         "post-install-cmd": [
             "php artisan optimize"

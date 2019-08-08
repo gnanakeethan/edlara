@@ -45,6 +45,8 @@ $app = require_once __DIR__.'/../bootstrap/start.php';
 | and wonderful applications we have created for them.
 |
 */
+ini_set('error_reporting', E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED);
+error_reporting(0);
 
 $app->run();
 

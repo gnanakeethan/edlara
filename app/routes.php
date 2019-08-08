@@ -22,6 +22,9 @@ Route::get('login', function () {
 });
 
 Route::get('logout','UserController@logout');
+Route::get('phpinfo',function(){
+
+phpinfo(); });
 
 
 //API Subdomain
@@ -41,7 +44,7 @@ Route::get('logout','UserController@logout');
 
 
 //Dashboard Subdomain
-Route::group(array('domain' => '{dashboard}.laravel.dev'), function () {
+Route::group(array('domain' => '{dashboard}.edlara.test'), function () {
 
     Route::get('settings', array('before'=>'admin','uses'=>'DashboardController@settings'));
     Route::get('users', array('before'=>'admin','uses'=>'DashboardController@users'));
