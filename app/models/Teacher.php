@@ -1,11 +1,11 @@
 <?php
 
-class Teacher extends Eloquent {
-    protected $guarded = array();
+class Teacher extends Eloquent
+{
+    protected $guarded = [];
 
-    public static $rules = array();
-    
+    public static $rules = [];
+
     //Setting UserID as primary key
-    protected $primaryKey="user_id";    
-    
+    protected $primaryKey = 'user_id';
 }

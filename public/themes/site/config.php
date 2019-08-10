@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
 
     /*
     |--------------------------------------------------------------------------
@@ -28,40 +28,36 @@ return array(
     |
     */
 
-    'events' => array(
+    'events' => [
 
         // Before event inherit from package config and the theme that call before,
         // you can use this event to set meta, breadcrumb template or anything
         // you want inheriting.
-        'before' => function($theme)
-        {
+        'before' => function ($theme) {
             $theme->setTitle(Setting::get('system.schoolname'));
-
         },
 
         // Listen on event before render a theme,
         // this event should call to assign some assets,
         // breadcrumb template.
-        'beforeRenderTheme' => function($theme)
-        {
+        'beforeRenderTheme' => function ($theme) {
             //BEFORE RENDER THEME
         },
 
         // Listen on event before render a layout,
         // this should call to assign style, script for a layout.
-        'beforeRenderLayout' => array(
+        'beforeRenderLayout' => [
 
-            'default' => function($theme)
-            {
-                $theme->asset()->container('footer')->add('jquery','/js/jquery-2.0.2.min.js');
-                $theme->asset()->container('footer')->add('bootstrapjs','/lib/bootstrap/js/bootstrap.min.js');
-                $theme->asset()->add('core','/css/system/main.css');
+            'default' => function ($theme) {
+                $theme->asset()->container('footer')->add('jquery', '/js/jquery-2.0.2.min.js');
+                $theme->asset()->container('footer')->add('bootstrapjs', '/lib/bootstrap/js/bootstrap.min.js');
+                $theme->asset()->add('core', '/css/system/main.css');
                 $theme->asset()->add('bootstrap', '/lib/bootstrap/css/bootstrap.min.css');
-                $theme->asset()->container('footer')->add('datatables','/lib/datatables/js/jquery.dataTables.min.js',['jquery']);
-            }
+                $theme->asset()->container('footer')->add('datatables', '/lib/datatables/js/jquery.dataTables.min.js', ['jquery']);
+            },
 
-        )
+        ],
 
-    )
+    ],
 
-);
+];

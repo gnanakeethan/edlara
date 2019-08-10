@@ -3,8 +3,8 @@
 use Teepluss\Theme\Theme;
 use Teepluss\Theme\Widget;
 
-class WidgetSidebar extends Widget {
-
+class WidgetSidebar extends Widget
+{
     /**
      * Widget template.
      *
@@ -15,7 +15,7 @@ class WidgetSidebar extends Widget {
     /**
      * Watching widget tpl on everywhere.
      *
-     * @var boolean
+     * @var bool
      */
     public $watch = false;
 
@@ -24,10 +24,10 @@ class WidgetSidebar extends Widget {
      *
      * @var array
      */
-    public $attributes = array(
+    public $attributes = [
         'userId' => 9999,
-        'label'  => 'Generated Widget'
-    );
+        'label'  => 'Generated Widget',
+    ];
 
     /**
      * Code to start this widget.
@@ -57,5 +57,4 @@ class WidgetSidebar extends Widget {
 
         return $attrs;
     }
-
 }

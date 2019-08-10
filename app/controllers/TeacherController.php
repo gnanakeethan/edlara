@@ -1,7 +1,7 @@
 <?php
 
-class TeacherController extends BaseController {
-
+class TeacherController extends BaseController
+{
     /**
      * Display a listing of the resource.
      *
@@ -35,7 +35,8 @@ class TeacherController extends BaseController {
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
     public function show($id)
@@ -46,7 +47,8 @@ class TeacherController extends BaseController {
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
     public function edit($id)
@@ -57,7 +59,8 @@ class TeacherController extends BaseController {
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
     public function update($id)
@@ -68,12 +71,12 @@ class TeacherController extends BaseController {
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
     public function destroy($id)
     {
         //
     }
-
 }

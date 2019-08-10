@@ -2,33 +2,34 @@
 
 class DashboardController extends BaseController
 {
-	public function dash(){
-
+    public function dash()
+    {
         $theme = Theme::uses('dashboard')->layout('dash');
 
-        $view = array(
-            'name' => 'Dashboard Home'
-        );
+        $view = [
+            'name' => 'Dashboard Home',
+        ];
         $theme->breadcrumb()->add([
-            ['label'=>'Dashboard','url'=>Setting::get('system.dashurl')]
+            ['label'=>'Dashboard', 'url'=>Setting::get('system.dashurl')],
         ]);
         $theme->appendTitle(' - Dashboard');
-        
+
         return $theme->scope('home', $view)->render();
-	}
-	
-	public function teachers(){
-		$theme = Theme::uses('dashboard')->layout('default');
-		$view = array(
-		    'name' => 'Dashboard Teachers'
-		);
-		$theme->breadcrumb()->add([
-		    ['label'=>'Dashboard','url'=>Setting::get('system.dashurl')],
-		    ['label'=>'Teachers','url'=>Setting::get('system.dashurl').'/teachers']
-		]);
-		$theme->setTitle(Setting::get('system.adminsitename').' - Assessments');
-		$theme->setType('Assessments');
-        $theme->asset()->container('datatable')->writeScript('inline-script','$(document).ready(function(){
+    }
+
+    public function teachers()
+    {
+        $theme = Theme::uses('dashboard')->layout('default');
+        $view = [
+            'name' => 'Dashboard Teachers',
+        ];
+        $theme->breadcrumb()->add([
+            ['label'=>'Dashboard', 'url'=>Setting::get('system.dashurl')],
+            ['label'=> 'Teachers', 'url'=>Setting::get('system.dashurl').'/teachers'],
+        ]);
+        $theme->setTitle(Setting::get('system.adminsitename').' - Assessments');
+        $theme->setType('Assessments');
+        $theme->asset()->container('datatable')->writeScript('inline-script', '$(document).ready(function(){
     $(\'.datatable\').dataTable({
         "sDom": "<\'row\'<\'col-xs-5 col-sm-5 col-md-5\'l><\'col-xs-5 col-sm-5 col-md-5\'f>r>t<\'row\'<\'col-xs-5 col-sm-5 col-md-5\'i><\'col-xs-5 col-sm-5 col-md-5\'p>>",
             "oLanguage": {
@@ -38,7 +39,7 @@ class DashboardController extends BaseController
        
     });
 });        ');
-		$theme->asset()->writeStyle('inline-style','
+        $theme->asset()->writeStyle('inline-style', '
 		        @media only screen and (max-width: 760px),(min-device-width: 768px) and (max-device-width: 1024px)  
 		        { 
 		            td:nth-of-type(1):before { content: "#ID :- "; }
@@ -49,22 +50,22 @@ class DashboardController extends BaseController
 		            td:nth-of-type(6):before { content: "Actions :- "; }
 		        }');
 
-		return $theme->scope('teachers', $view)->render();
+        return $theme->scope('teachers', $view)->render();
+    }
 
-	}
-
-	public function assessments(){
-		$theme = Theme::uses('dashboard')->layout('default');
-        $view = array(
-            'name' => 'Dashboard Assessments'
-        );
+    public function assessments()
+    {
+        $theme = Theme::uses('dashboard')->layout('default');
+        $view = [
+            'name' => 'Dashboard Assessments',
+        ];
         $theme->breadcrumb()->add([
-            ['label'=>'Dashboard','url'=>Setting::get('system.dashurl')],
-            ['label'=>'Assessments','url'=>Setting::get('system.dashurl').'/assessments']
+            ['label'=>'Dashboard', 'url'=>Setting::get('system.dashurl')],
+            ['label'=> 'Assessments', 'url'=>Setting::get('system.dashurl').'/assessments'],
         ]);
         $theme->setTitle(Setting::get('system.adminsitename').' - Assessments');
         $theme->setType('Assessments');
-        $theme->asset()->container('datatable')->writeScript('inline-script','$(document).ready(function(){
+        $theme->asset()->container('datatable')->writeScript('inline-script', '$(document).ready(function(){
     $(\'.datatable\').dataTable({
         "sDom": "<\'row\'<\'col-xs-5 col-sm-5 col-md-5\'l><\'col-xs-5 col-sm-5 col-md-5\'f>r>t<\'row\'<\'col-xs-5 col-sm-5 col-md-5\'i><\'col-xs-5 col-sm-5 col-md-5\'p>>",
             "oLanguage": {
@@ -74,7 +75,7 @@ class DashboardController extends BaseController
        
     });
 });        ');
-        $theme->asset()->writeStyle('inline-style','
+        $theme->asset()->writeStyle('inline-style', '
                 @media only screen and (max-width: 760px),(min-device-width: 768px) and (max-device-width: 1024px)  
                 { 
                     td:nth-of-type(1):before { content: "#ID :- "; }
@@ -90,20 +91,21 @@ class DashboardController extends BaseController
                 }');
 
         return $theme->scope('assessments', $view)->render();
-	}
+    }
 
-	public function users(){
-		$theme = Theme::uses('dashboard')->layout('default');
+    public function users()
+    {
+        $theme = Theme::uses('dashboard')->layout('default');
 
-        $view = array(
-            'name' => 'Dashboard Users'
-        );
+        $view = [
+            'name' => 'Dashboard Users',
+        ];
         $theme->breadcrumb()->add([
-            ['label'=>'Dashboard','url'=>Setting::get('system.dashurl')],
-            ['label'=>'Users','url'=>Setting::get('system.dashurl').'/users']
+            ['label'=>'Dashboard', 'url'=>Setting::get('system.dashurl')],
+            ['label'=> 'Users', 'url'=>Setting::get('system.dashurl').'/users'],
         ]);
         $theme->appendTitle(' - Users');
-        $theme->asset()->container('datatable')->writeScript('inline-script','$(document).ready(function(){
+        $theme->asset()->container('datatable')->writeScript('inline-script', '$(document).ready(function(){
     $(\'.datatable\').dataTable({
         "sDom": "<\'row\'<\'col-xs-5 col-sm-5 col-md-5\'l><\'col-xs-5 col-sm-5 col-md-5\'f>r>t<\'row\'<\'col-xs-5 col-sm-5 col-md-5\'i><\'col-xs-5 col-sm-5 col-md-5\'p>>",
             "oLanguage": {
@@ -113,7 +115,7 @@ class DashboardController extends BaseController
        
     });
 });        ');
-        $theme->asset()->writeStyle('inline-style','
+        $theme->asset()->writeStyle('inline-style', '
                 @media only screen and (max-width: 760px),(min-device-width: 768px) and (max-device-width: 1024px)  
                 { 
                     td:nth-of-type(1):before { content: "#ID :- "; }
@@ -124,36 +126,39 @@ class DashboardController extends BaseController
                     td:nth-of-type(6):before { content: "Activation:- "; }
                     td:nth-of-type(7):before { content: "Actions :- "; }
                 }');
+
         return $theme->scope('users', $view)->render();
-	}
-	public function settings(){
-		
+    }
+
+    public function settings()
+    {
         $theme = Theme::uses('dashboard')->layout('default');
 
-        $view = array(
-            'name' => 'Dashboard Settings'
-        );
+        $view = [
+            'name' => 'Dashboard Settings',
+        ];
         $theme->breadcrumb()->add([
-            ['label'=>'Dashboard','url'=>Setting::get('system.dashurl')],
-            ['label'=>'Settings','url'=>Setting::get('system.dashurl').'/settings']
+            ['label'=>'Dashboard', 'url'=>Setting::get('system.dashurl')],
+            ['label'=> 'Settings', 'url'=>Setting::get('system.dashurl').'/settings'],
         ]);
         $theme->appendTitle(' - Settings');
-       
+
         return $theme->scope('settings', $view)->render();
+    }
 
-	}
-
-	public function exams(){
-		$theme = Theme::uses('dashboard')->layout('default');
-        $view = array(
-            'name' => 'Dashboard Assessments'
-        );
+    public function exams()
+    {
+        $theme = Theme::uses('dashboard')->layout('default');
+        $view = [
+            'name' => 'Dashboard Assessments',
+        ];
         $theme->breadcrumb()->add([
-            ['label'=>'Dashboard','url'=>Setting::get('system.dashurl')],
-            ['label'=>'Exams','url'=>Setting::get('system.dashurl').'/exams']
+            ['label'=>'Dashboard', 'url'=>Setting::get('system.dashurl')],
+            ['label'=> 'Exams', 'url'=>Setting::get('system.dashurl').'/exams'],
         ]);
         $theme->setTitle(Setting::get('system.adminsitename').' - Exams');
-        $theme->setType('Exams');$theme->asset()->container('datatable')->writeScript('inline-script','$(document).ready(function(){
+        $theme->setType('Exams');
+        $theme->asset()->container('datatable')->writeScript('inline-script', '$(document).ready(function(){
     $(\'.datatable\').dataTable({
         "sDom": "<\'row\'<\'col-xs-5 col-sm-5 col-md-5\'l><\'col-xs-5 col-sm-5 col-md-5\'f>r>t<\'row\'<\'col-xs-5 col-sm-5 col-md-5\'i><\'col-xs-5 col-sm-5 col-md-5\'p>>",
             "oLanguage": {
@@ -163,7 +168,7 @@ class DashboardController extends BaseController
        
     });
 });        ');
-        $theme->asset()->writeStyle('inline-style','
+        $theme->asset()->writeStyle('inline-style', '
                 @media only screen and (max-width: 760px),(min-device-width: 768px) and (max-device-width: 1024px)  
                 { 
                     td:nth-of-type(1):before { content: "#ID :- "; }
@@ -174,25 +179,28 @@ class DashboardController extends BaseController
                 }');
 
         return $theme->scope('exams', $view)->render();
-	}
-	public function tutorials(){
-		 $theme = Theme::uses('dashboard')->layout('default');
-        $view = array(
-            'name' => 'Dashboard Tutorials'
-        );
+    }
+
+    public function tutorials()
+    {
+        $theme = Theme::uses('dashboard')->layout('default');
+        $view = [
+            'name' => 'Dashboard Tutorials',
+        ];
         $theme->breadcrumb()->add([
-            ['label'=>'Dashboard','url'=>Setting::get('system.dashurl')],
-            ['label'=>'Tutorials','url'=>Setting::get('system.dashurl').'/tutorials']
+            ['label'=>'Dashboard', 'url'=>Setting::get('system.dashurl')],
+            ['label'=> 'Tutorials', 'url'=>Setting::get('system.dashurl').'/tutorials'],
         ]);
         $theme->appendTitle(' - Tutorials');
-        $theme->setType('Tutorials');$theme->asset()->container('datatable')->writeScript('inline-script','$(document).ready(function(){
+        $theme->setType('Tutorials');
+        $theme->asset()->container('datatable')->writeScript('inline-script', '$(document).ready(function(){
     $(\'.datatable\').dataTable({
         "sDom": "<\'row\'<\'col-xs-5 col-sm-5 col-md-5\'l><\'col-xs-5 col-sm-5 col-md-5\'f>r>t<\'row\'<\'col-xs-5 col-sm-5 col-md-5\'i><\'col-xs-5 col-sm-5 col-md-5\'p>>",
             "oLanguage": {
             "sLengthMenu": "_MENU_ Tutorials per page"
             },
             "sPagination":"bootstrap" }); });');
-        $theme->asset()->writeStyle('inline-style','
+        $theme->asset()->writeStyle('inline-style', '
                 @media only screen and (max-width: 760px),(min-device-width: 768px) and (max-device-width: 1024px)  
                 { 
                     td:nth-of-type(1):before { content: "#ID :- "; }
@@ -207,19 +215,21 @@ class DashboardController extends BaseController
                 }');
 
         return $theme->scope('tutorials', $view)->render();
-	}
-    public function students(){
+    }
+
+    public function students()
+    {
         $theme = Theme::uses('dashboard')->layout('default');
-        $view = array(
-            'name' => 'Dashboard Students'
-        );
+        $view = [
+            'name' => 'Dashboard Students',
+        ];
         $theme->breadcrumb()->add([
-            ['label'=>'Dashboard','url'=>Setting::get('system.dashurl')],
-            ['label'=>'Students','url'=>Setting::get('system.dashurl').'/students']
+            ['label'=>'Dashboard', 'url'=>Setting::get('system.dashurl')],
+            ['label'=> 'Students', 'url'=>Setting::get('system.dashurl').'/students'],
         ]);
         $theme->setTitle(Setting::get('system.adminsitename').' Students');
         $theme->setType('Students');
-        $theme->asset()->container('datatable')->writeScript('inline-script','$(document).ready(function(){
+        $theme->asset()->container('datatable')->writeScript('inline-script', '$(document).ready(function(){
             $(\'.datatable\').dataTable({
                 "sDom": "<\'row\'<\'col-xs-5 col-sm-5 col-md-5\'l><\'col-xs-5 col-sm-5 col-md-5\'f>r>t<\'row\'<\'col-xs-5 col-sm-5 col-md-5\'i><\'col-xs-5 col-sm-5 col-md-5\'p>>",
                 "oLanguage": {
@@ -228,7 +238,7 @@ class DashboardController extends BaseController
                 "sPagination":"bootstrap" });
             });
         ');
-        $theme->asset()->writeStyle('inline-style','
+        $theme->asset()->writeStyle('inline-style', '
                 @media only screen and (max-width: 760px),(min-device-width: 768px) and (max-device-width: 1024px)  
                 { 
                     td:nth-of-type(1):before { content: "#ID :- "; }
@@ -241,20 +251,23 @@ class DashboardController extends BaseController
                     td:nth-of-type(8):before { content: "Published :- "; }
                     td:nth-of-type(9):before { content: "Actions :- "; }
                 }');
+
         return $theme->scope('students', $view)->render();
-    }   
-    public function subjects(){
+    }
+
+    public function subjects()
+    {
         $theme = Theme::uses('dashboard')->layout('default');
-        $view = array(
-            'name' => 'Dashboard Subjects'
-        );
+        $view = [
+            'name' => 'Dashboard Subjects',
+        ];
         $theme->breadcrumb()->add([
-            ['label'=>'Dashboard','url'=>Setting::get('system.dashurl')],
-            ['label'=>'Subjects','url'=>Setting::get('system.dashurl').'/subjects']
+            ['label'=>'Dashboard', 'url'=>Setting::get('system.dashurl')],
+            ['label'=> 'Subjects', 'url'=>Setting::get('system.dashurl').'/subjects'],
         ]);
         $theme->setTitle(Setting::get('system.adminsitename').' Subjects');
         $theme->setType('Subjects');
-        $theme->asset()->container('datatable')->writeScript('inline-script','$(document).ready(function(){
+        $theme->asset()->container('datatable')->writeScript('inline-script', '$(document).ready(function(){
             $(\'.datatable\').dataTable({
                 "sWrapper": "dataTables_wrapper form-control",
                 "sDom": "<\'row\'<\'col-xs-5 col-sm-5 col-md-5\'l><\'col-xs-5 col-sm-5 col-md-5\'f>r>t<\'row\'<\'col-xs-5 col-sm-5 col-md-5\'i><\'col-xs-5 col-sm-5 col-md-5\'p>>",
@@ -264,7 +277,7 @@ class DashboardController extends BaseController
                 "sPagination":"bootstrap" });
             });
         ');
-        $theme->asset()->writeStyle('inline-style','
+        $theme->asset()->writeStyle('inline-style', '
                 @media only screen and (max-width: 760px),(min-device-width: 768px) and (max-device-width: 1024px)  
                 { 
                     td:nth-of-type(1):before { content: "#ID :- "; }
@@ -274,6 +287,7 @@ class DashboardController extends BaseController
                     td:nth-of-type(5):before { content: "Modified Date :- "; }
                     td:nth-of-type(6):before { content: "Actions :- "; }
                 }');
+
         return $theme->scope('subjects', $view)->render();
     }
 }

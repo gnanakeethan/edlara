@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
 
     /*
     |--------------------------------------------------------------------------
@@ -20,7 +20,7 @@ return array(
     |
     */
 
-    'production' => array('production', 'prod'),
+    'production' => ['production', 'prod'],
 
     /*
     |--------------------------------------------------------------------------
@@ -59,11 +59,11 @@ return array(
     |
     */
 
-    'node_paths' => array(
+    'node_paths' => [
 
-        base_path().'/node_modules'
+        base_path().'/node_modules',
 
-    ),
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -78,6 +78,6 @@ return array(
     |
     */
 
-    'gzip' => false
+    'gzip' => false,
 
-);
+];

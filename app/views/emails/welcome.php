@@ -22,15 +22,15 @@
 This educational programme provides you with facilities to submit assessments to your subjects.
 You can contact us at anytime using this email address<a href="mailto:info@edlaraedu.com">info@edlara.com</a>
 <br>
-<?php 
-$url =  Setting::get('app.url', 'https://laravel.dev/');
-echo "<a href='".$url."activateuser/".$activation_code.'/'.$email."'>Click Here to Activate</a>";
+<?php
+$url = Setting::get('app.url', 'https://laravel.dev/');
+echo "<a href='".$url.'activateuser/'.$activation_code.'/'.$email."'>Click Here to Activate</a>";
 ?>
 <p>Or</p>
 <p>Copy and Paste following URL in Browser</p>
-<?php 
-$url =  Setting::get('app.url', 'https://laravel.dev/');
-echo $url."activateuser/".$activation_code.'/'.$email;
+<?php
+$url = Setting::get('app.url', 'https://laravel.dev/');
+echo $url.'activateuser/'.$activation_code.'/'.$email;
 ?>
 <br><p style="font-size:10px;">If You have not registered , it may be due to a typing error. Sorry for any inconveinience caused.</p>
 <p style="align:right;">

@@ -1,9 +1,8 @@
 <?php
 
-defined('ROOT' )|| die('Restricted Access');
+defined('ROOT') || die('Restricted Access');
 
-
-return array(
+return [
 
     /*
     |--------------------------------------------------------------------------
@@ -31,13 +30,12 @@ return array(
     |
     */
 
-    'events' => array(
+    'events' => [
 
         // Before event inherit from package config and the theme that call before,
         // you can use this event to set meta, breadcrumb template or anything
         // you want inheriting.
-        'before' => function($theme)
-        {
+        'before' => function ($theme) {
             // You can remove this line anytime.
             $theme->setTitle(Setting::get('system.adminsitename'));
 
@@ -58,22 +56,19 @@ return array(
         // Listen on event before render a theme,
         // this event should call to assign some assets,
         // breadcrumb template.
-        'beforeRenderTheme' => function($theme)
-        {
-            
+        'beforeRenderTheme' => function ($theme) {
         },
 
         // Listen on event before render a layout,
         // this should call to assign style, script for a layout.
-        'beforeRenderLayout' => array(
+        'beforeRenderLayout' => [
 
-            'default' => function($theme)
-            {
+            'default' => function ($theme) {
                 // $theme->asset()->usePath()->add('ipad', 'css/layouts/ipad.css');
-            }
+            },
 
-        )
+        ],
 
-    )
+    ],
 
-);
+];

@@ -3,8 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateTutorialsTable extends Migration {
-
+class CreateTutorialsTable extends Migration
+{
     /**
      * Run the migrations.
      *
@@ -12,18 +12,18 @@ class CreateTutorialsTable extends Migration {
      */
     public function up()
     {
-        Schema::create('tutorials', function(Blueprint $table) {
+        Schema::create('tutorials', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name',128);
+            $table->string('name', 128);
             $table->text('description');
-            $table->string('alias',32);
+            $table->string('alias', 32);
             $table->integer('published');
             $table->text('subjectname');
             $table->integer('subjectid');
             $table->text('content');
             $table->integer('createdby');
             $table->text('exams');
-            $table->timestamps();            
+            $table->timestamps();
             $table->softDeletes();
         });
 
@@ -41,5 +41,4 @@ class CreateTutorialsTable extends Migration {
     {
         Schema::drop('tutorials');
     }
-
 }

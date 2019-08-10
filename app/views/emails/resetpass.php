@@ -20,17 +20,17 @@
     Hi <?php echo $fname.' '.$lname ?>,<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You have recently requested to reset your password.
 
-<?php 
-$url =  Setting::get('app.url', 'https://laravel.dev/');
-echo "<a href='".$url."forgottenpass/".$reset_code.'/'.$email."'>Click Here to Activate</a>";
+<?php
+$url = Setting::get('app.url', 'https://laravel.dev/');
+echo "<a href='".$url.'forgottenpass/'.$reset_code.'/'.$email."'>Click Here to Activate</a>";
 ?>
 <br>
 <p>Or</p>
 <p>Copy and Paste following URL in Browser</p>
-<?php 
+<?php
 
-$url =  Setting::get('app.url', 'https://laravel.dev/');
-echo $url."forgottenpass/".$reset_code.'/'.$email;
+$url = Setting::get('app.url', 'https://laravel.dev/');
+echo $url.'forgottenpass/'.$reset_code.'/'.$email;
 ?>
 
 You can contact us at anytime using this email address<a href="mailto:info@edlaraedu.com">info@edlara.com</a>
