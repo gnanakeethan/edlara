@@ -10,22 +10,21 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
-require_once('viewcomposer.php');
-require_once('staticfunctions.php');
+require_once 'viewcomposer.php';
+require_once 'staticfunctions.php';
 
 define('ROOT', 1);
 
 //Authencticating User with Controller
-Route::post('login', array('before' => 'csrf','uses' => 'UserController@authenticate'));
+Route::post('login', ['before' => 'csrf', 'uses' => 'UserController@authenticate']);
 Route::get('login', function () {
     return View::make('account.login');
 });
 
-Route::get('logout','UserController@logout');
-Route::get('phpinfo',function(){
-
-phpinfo(); });
-
+Route::get('logout', 'UserController@logout');
+Route::get('phpinfo', function () {
+    phpinfo();
+});
 
 //API Subdomain
 // Route::group(array('domain' => 'api.'.Setting::get('system.siteurlshort')),function(){
@@ -40,284 +39,260 @@ phpinfo(); });
 //     Route::get('/exam/{id}',array('before'=>'api_check','uses'=>'ApiController@exam'));
 // });
 
-
-
-
 //Dashboard Subdomain
-Route::group(array('domain' => '{dashboard}.edlara.test'), function () {
+Route::group(['domain' => '{dashboard}.edlara.test'], function () {
+    Route::get('settings', ['before'=>'admin', 'uses'=>'DashboardController@settings']);
+    Route::get('users', ['before'=>'admin', 'uses'=>'DashboardController@users']);
+    Route::get('teachers', ['before'=>'admin', 'uses'=>'DashboardController@teachers']);
+    Route::get('students', ['before'=>'admin', 'uses'=>'DashboardController@students']);
+    Route::get('exams', ['before'=>'teacher', 'uses'=>'DashboardController@exams']);
+    Route::get('subjects', ['before'=>'admin', 'uses'=>'DashboardController@subjects']);
+    Route::get('tutorials', ['before'=>'teacher', 'uses'=>'DashboardController@tutorials']);
+    Route::get('assessments', ['before'=>'teacher', 'uses'=>'DashboardController@assessments']);
+    Route::get('/', ['as'=>'dashboard', 'before'=>'teacher', 'uses'=>'DashboardController@dash']);
 
-    Route::get('settings', array('before'=>'admin','uses'=>'DashboardController@settings'));
-    Route::get('users', array('before'=>'admin','uses'=>'DashboardController@users'));
-    Route::get('teachers', array('before'=>'admin','uses'=>'DashboardController@teachers'));
-    Route::get('students', array('before'=>'admin','uses'=>'DashboardController@students'));
-    Route::get('exams',array('before'=>'teacher','uses'=>'DashboardController@exams'));
-    Route::get('subjects',array('before'=>'admin','uses'=>'DashboardController@subjects'));
-    Route::get('tutorials', array('before'=>'teacher','uses'=>'DashboardController@tutorials'));
-    Route::get('assessments',array('before'=>'teacher','uses'=>'DashboardController@assessments'));
-    Route::get('/',array('as'=>'dashboard','before'=>'teacher','uses'=>'DashboardController@dash'));
+    Route::get('tutorial/edit/{id?}', 'TutorialsController@index')->where('id', '[0-9]+')->before('teacher');
+    Route::get('tutorial/{mode}/{id}', ['before'=>'teacher', 'uses'=>'TutorialsController@modder']);
+    Route::get('tutorial/update/{id}/{attachmentname}/{mode}', ['before'=>'teacher', 'uses'=>'TutorialsController@attachmentHandler']);
+    Route::get('assessment/{id}', ['before'=>'teacher', 'uses'=>'HttpController@assessmentupdateget']);
+    Route::get('/assessment-{aid}/exam-{eid}/markup', ['before'=>'teacher', 'uses'=>'ExamController@markExam']);
 
-
-
-    Route::get('tutorial/edit/{id?}','TutorialsController@index')->where('id', '[0-9]+')->before('teacher');
-    Route::get('tutorial/{mode}/{id}',array('before'=>'teacher','uses'=>'TutorialsController@modder'));
-    Route::get('tutorial/update/{id}/{attachmentname}/{mode}',array('before'=>'teacher','uses'=>'TutorialsController@attachmentHandler'));
-    Route::get('assessment/{id}',array('before'=>'teacher','uses'=>'HttpController@assessmentupdateget'));
-    Route::get('/assessment-{aid}/exam-{eid}/markup',array('before'=>'teacher','uses'=>'ExamController@markExam'));
-
-
-    Route::get('/exam/edit/{id}',array('before'=>'teacher','uses'=>'HttpController@examupdateget'));
-    Route::get('/exam/view/{id}',array('before'=>'teacher',function($dash,$id){
-        if(Exams::find($id)){
-            return View::make('dashboard.exams.view')->with('id',$id);
+    Route::get('/exam/edit/{id}', ['before'=>'teacher', 'uses'=>'HttpController@examupdateget']);
+    Route::get('/exam/view/{id}', ['before'=> 'teacher', function ($dash, $id) {
+        if (Exams::find($id)) {
+            return View::make('dashboard.exams.view')->with('id', $id);
         }
-        return View::make('dashboard.exams.create')->with('id',0);
-    }));
-    Route::get('/exam/delete/{id}',array('before'=>'admin',function($dash,$id){
+
+        return View::make('dashboard.exams.create')->with('id', 0);
+    }]);
+    Route::get('/exam/delete/{id}', ['before'=> 'admin', function ($dash, $id) {
         $exam = Exams::findOrFail($id);
         $examdata = DB::select(DB::raw('SELECT exams FROM tutorials'));
         $examdata = objectToArray($examdata);
-        $pass=[];
-        foreach($examdata as $exam){
-            if($exam["exams"]!= NULL){
-                $exam = unserialize($exam["exams"]);
-                if((int)$exam["id"] !== (int)$id){
-                    $pass[]=true;
-                }
-                elseif((int)$exam["id"] == (int)$id) {
-                    $pass[]=false;
+        $pass = [];
+        foreach ($examdata as $exam) {
+            if ($exam['exams'] != null) {
+                $exam = unserialize($exam['exams']);
+                if ((int) $exam['id'] !== (int) $id) {
+                    $pass[] = true;
+                } elseif ((int) $exam['id'] == (int) $id) {
+                    $pass[] = false;
                 }
             }
         }
         if (in_array(false, $pass, true)) {
-        }
-        else {
+        } else {
             $exam->delete();
         }
-        return Redirect::to("/exams");
-    }));
-    Route::get('/tutorial/edit/{id}/presentation',array('before'=>'teacher','uses'=>'PresentationController@view'))->where('id', '[0-9]+');
-    Route::get('user/{id}/{mode}', array('before'=>'teacher','uses'=>'UserController@manage'))->where('id', '[0-9]+');
 
+        return Redirect::to('/exams');
+    }]);
+    Route::get('/tutorial/edit/{id}/presentation', ['before'=>'teacher', 'uses'=>'PresentationController@view'])->where('id', '[0-9]+');
+    Route::get('user/{id}/{mode}', ['before'=>'teacher', 'uses'=>'UserController@manage'])->where('id', '[0-9]+');
 
-    Route::post('tutorial/edit/{id}/update',array('before'=>'csrf|teacher','uses'=>'TutorialsController@update'))->where('id', '[0-9]+');
-    Route::post('tutorial/edit/{id}/create-presentation',array('before'=>'csrf|teacher','uses'=>'PresentationController@create'))->where('id', '[0-9]+');
+    Route::post('tutorial/edit/{id}/update', ['before'=>'csrf|teacher', 'uses'=>'TutorialsController@update'])->where('id', '[0-9]+');
+    Route::post('tutorial/edit/{id}/create-presentation', ['before'=>'csrf|teacher', 'uses'=>'PresentationController@create'])->where('id', '[0-9]+');
 
-    Route::post('assessment/{id}',array('before'=>'csrf|teacher','uses'=>'AssessmentController@teacherUpdate'));
+    Route::post('assessment/{id}', ['before'=>'csrf|teacher', 'uses'=>'AssessmentController@teacherUpdate']);
 
-    Route::post('user/{id}/update', array('before'=>'csrf|admin','uses'=>'UserController@update'));
+    Route::post('user/{id}/update', ['before'=>'csrf|admin', 'uses'=>'UserController@update']);
 
-    Route::post('/exam/edit/0',array('before'=>'csrf|teacher','uses'=>'ExamController@createExam'));
-    Route::post('/exam/edit/{id}',array('before'=>'csrf|teacher','uses'=>'ExamController@updateExam'));
+    Route::post('/exam/edit/0', ['before'=>'csrf|teacher', 'uses'=>'ExamController@createExam']);
+    Route::post('/exam/edit/{id}', ['before'=>'csrf|teacher', 'uses'=>'ExamController@updateExam']);
 
-    Route::post('settings', array('before'=>'csrf|admin', 'uses'=>'SettingsController@update'));
-    Route::get('clearcache',array('before'=>'admin',function(){
+    Route::post('settings', ['before'=>'csrf|admin', 'uses'=>'SettingsController@update']);
+    Route::get('clearcache', ['before'=> 'admin', function () {
         Artisan::call('cache:clear');
         Cache::flush();
+
         return Redirect::to(URL::previous());
-    }));
-    Route::any('subject/edit/{id}/{mode}',array('before'=>'csrf|admin','uses'=>'SubjectController@modder'));
-})->before('auth|cache')->where('dashboard',Setting::get('system.dashurlshort'));
+    }]);
+    Route::any('subject/edit/{id}/{mode}', ['before'=>'csrf|admin', 'uses'=>'SubjectController@modder']);
+})->before('auth|cache')->where('dashboard', Setting::get('system.dashurlshort'));
 
-
-
-
-
-Route::group([],function(){
+Route::group([], function () {
 
     //Show New User registration
-    Route::get('register','UserController@showReg');
-
+    Route::get('register', 'UserController@showReg');
 
     //New User Registration - POST
-    Route::post('register',array('before'=>'csrf',
-        'uses' => 'UserController@register'));
+    Route::post('register', ['before'=> 'csrf',
+        'uses'                       => 'UserController@register', ]);
 
+    Route::get('/activateuser/{hash}/{email}', function ($hash, $email) {
+        $login = $email;
 
-    Route::get('/activateuser/{hash}/{email}',function($hash,$email){
-
-        $login =$email;
-        try
-        {
-        // Find the user using the user id
-        $user = Sentry::getUserProvider()->findByLogin($email);
+        try {
+            // Find the user using the user id
+            $user = Sentry::getUserProvider()->findByLogin($email);
 
             // Attempt to activate the user
-            if ($user->attemptActivation($hash))
-            {
+            if ($user->attemptActivation($hash)) {
                 // User activation passed
-                return View::make('account.login')->with('loginpass',1);
-            }
-            else
-            {
+                return View::make('account.login')->with('loginpass', 1);
+            } else {
                 // User activation failed
-                return View::make('account.activation')->with('error','codemismatch');
+                return View::make('account.activation')->with('error', 'codemismatch');
             }
-        }
-        catch (Cartalyst\Sentry\Users\UserNotFoundException $e)
-        {
+        } catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
             \Log::warning($login.' \'s account wasnt found in the system. Tried to activate the account.');
-            return View::make('account.activation')->with('error','notfound');
-        }
-        catch (Cartalyst\Sentry\Users\UserAlreadyActivatedException $e)
-        {
+
+            return View::make('account.activation')->with('error', 'notfound');
+        } catch (Cartalyst\Sentry\Users\UserAlreadyActivatedException $e) {
             \Log::warning($login.' \'s account was already activated');
-            return View::make('account.login')->with('error','Account Already Activated. Please login below with your credentials');
+
+            return View::make('account.login')->with('error', 'Account Already Activated. Please login below with your credentials');
         }
 
-         return View::make('account.login');
+        return View::make('account.login');
     });
 
     // Forgotten Password Get Link Page.
-    Route::get('forgotpass',function(){
+    Route::get('forgotpass', function () {
         return View::make('account.forgottenpass');
     });
 
     // Accept Reset POST
-    Route::post('acceptreset',['before'=>'csrf','uses'=>'UserController@acceptReset']);
+    Route::post('acceptreset', ['before'=>'csrf', 'uses'=>'UserController@acceptReset']);
 
     // Accept Reset GET
-    Route::get('acceptreset',function(){
+    Route::get('acceptreset', function () {
         return View::make('account.acceptreset');
     });
 
     // Accept Forgotten Password Reset Request. and Allow reset Password.
-    Route::get('forgottenpass/{key}/{username}',function($key,$username){
-         $user = Sentry::getUserProvider()->findByResetPasswordCode($key);
-         if($user->getLogin() == $username){
-            Session::flash('key',$key);
-            Session::flash('username',$username);
+    Route::get('forgottenpass/{key}/{username}', function ($key, $username) {
+        $user = Sentry::getUserProvider()->findByResetPasswordCode($key);
+        if ($user->getLogin() == $username) {
+            Session::flash('key', $key);
+            Session::flash('username', $username);
+
             return View::make('account.passwordreset');
-         }
-         return View::make('account.login');
+        }
+
+        return View::make('account.login');
     });
 
     // Reset Password Accept
-    Route::post('resetpass',['before'=>'csrf','uses'=>'UserController@resetPass']);
+    Route::post('resetpass', ['before'=>'csrf', 'uses'=>'UserController@resetPass']);
 });
 
-
-
-
-Route::group([],function(){
-    Route::get('profiles',function(){
-        return;
+Route::group([], function () {
+    Route::get('profiles', function () {
     });
 
     // User Show Profile
-    Route::get('profile/{id?}','UserController@showProfile')->where('id', '[0-9]+');
+    Route::get('profile/{id?}', 'UserController@showProfile')->where('id', '[0-9]+');
 
     // User Profile Edit
-    Route::get('profile/{id?}?edit=true',array('uses'=>'UserController@editProfile','before'=>'auth'));
-
+    Route::get('profile/{id?}?edit=true', ['uses'=>'UserController@editProfile', 'before'=>'auth']);
 });
-
 
 //Tutorials
 
 // Tutorial Item View
-Route::get('/tutorial/{id}',array('before'=>'block_tutorial','uses'=>'TutorialsController@siteitemview'));
+Route::get('/tutorial/{id}', ['before'=>'block_tutorial', 'uses'=>'TutorialsController@siteitemview']);
 
 // Tutorials List View
-Route::get('/tutorials',array('before'=>'block_tutorial','uses'=>'TutorialsController@sitelistview'));
+Route::get('/tutorials', ['before'=>'block_tutorial', 'uses'=>'TutorialsController@sitelistview']);
 
 // Tutorial Attachment Download
-Route::get('/attachments/tutorial-{id}/{attachmentname}/download',array('before'=>'student|block_tutorial','uses'=>'TutorialsController@siteAttachmentHandler'));
+Route::get('/attachments/tutorial-{id}/{attachmentname}/download', ['before'=>'student|block_tutorial', 'uses'=>'TutorialsController@siteAttachmentHandler']);
 
 // Tutorial Attachment View
-Route::get('/attachments/tutorial-{id}/{attachmentname}/view',array('before'=>'student|block_tutorial','uses'=>'TutorialsController@siteAttachmentView'));
-
+Route::get('/attachments/tutorial-{id}/{attachmentname}/view', ['before'=>'student|block_tutorial', 'uses'=>'TutorialsController@siteAttachmentView']);
 
 //Assessments
 
 // Providing Assessment Submit Securely hashed page.
-Route::get('assessment/submit/{id}/{hash}',array('before'=>'student',function($id,$hash){
-                        $tutorial =  Tutorials::findOrFail($id);
-                        $sessionvar = "tutorial-".$tutorial->id;
-                        $senc = Session::get($sessionvar);
-                        try
-                        {
-                        $decrypted = Crypt::decrypt($hash);
-                        }
-                        catch(Exception $e){
-                            //Catch Exception
-                        }
+Route::get('assessment/submit/{id}/{hash}', ['before'=> 'student', function ($id, $hash) {
+    $tutorial = Tutorials::findOrFail($id);
+    $sessionvar = 'tutorial-'.$tutorial->id;
+    $senc = Session::get($sessionvar);
 
-                        if($senc == $hash && $decrypted == $sessionvar){
-                            Session::put('tutorialid',$id);
-                            return Redirect::to('assessment/submit');
-                        }
-                        else
-                        {
-                            return "Unauthorised Access";
-                        }
-}));
+    try {
+        $decrypted = Crypt::decrypt($hash);
+    } catch (Exception $e) {
+        //Catch Exception
+    }
+
+    if ($senc == $hash && $decrypted == $sessionvar) {
+        Session::put('tutorialid', $id);
+
+        return Redirect::to('assessment/submit');
+    } else {
+        return 'Unauthorised Access';
+    }
+}]);
 
 // Submit Assessment POST
-Route::post('assessment/submit',array( 'before'=>'student','uses'=>'AssessmentController@submit'));
+Route::post('assessment/submit', ['before'=>'student', 'uses'=>'AssessmentController@submit']);
 
 // Update Assessment- Student Only.
-Route::post('assessment/update/{id}',array( 'before'=>'student','uses'=>'AssessmentController@update'));
+Route::post('assessment/update/{id}', ['before'=>'student', 'uses'=>'AssessmentController@update']);
 
 //Validating Exam Work
-Route::post('/tutorial-{tid}/exam-{eid}/{hash}',array('before'=>'student','uses'=>'ExamController@doExam'));
+Route::post('/tutorial-{tid}/exam-{eid}/{hash}', ['before'=>'student', 'uses'=>'ExamController@doExam']);
 
 // Submit Assessment GET
-Route::get('assessment/submit',array( 'before'=>'student','uses'=>'AssessmentController@submitview'));
+Route::get('assessment/submit', ['before'=>'student', 'uses'=>'AssessmentController@submitview']);
 
 // Download Assessment Attachment
-Route::get('/attachments/assessment-{id}/{filename}/download',array('before'=>'student','uses'=>'AssessmentController@download'));
+Route::get('/attachments/assessment-{id}/{filename}/download', ['before'=>'student', 'uses'=>'AssessmentController@download']);
 
 // Delete Assessment Attachment
-Route::get('/attachments/assessment-{id}/{filename}/delete',array('before'=>'student','uses'=>'AssessmentController@attachmentDelete'));
+Route::get('/attachments/assessment-{id}/{filename}/delete', ['before'=>'student', 'uses'=>'AssessmentController@attachmentDelete']);
 
 // View Assessment Attachment
-Route::get('/attachments/assessment-{id}/{filename}/view',array('before'=>'student','uses'=>'AssessmentController@attachmentView'));
+Route::get('/attachments/assessment-{id}/{filename}/view', ['before'=>'student', 'uses'=>'AssessmentController@attachmentView']);
 
 // Validate the Exam
-Route::get('/tutorial-{id}/exam-{eid}/{hash}',array('before'=>'student','uses'=>'ExamController@validateStudent'));
+Route::get('/tutorial-{id}/exam-{eid}/{hash}', ['before'=>'student', 'uses'=>'ExamController@validateStudent']);
 
 //Exam View
-Route::get('/tutorial-{id}/exam',array('before'=>'student|exam_check','uses'=>'ExamController@viewExam'));
+Route::get('/tutorial-{id}/exam', ['before'=>'student|exam_check', 'uses'=>'ExamController@viewExam']);
 
 // Updatable Assessment List
-Route::get('assessment/update',array( 'before'=>'student','uses'=>'AssessmentController@updateList'));
+Route::get('assessment/update', ['before'=>'student', 'uses'=>'AssessmentController@updateList']);
 
 // Update Assessment View - Student Only.
-Route::get('assessment/update/{id}',array( 'before'=>'student','uses'=>'AssessmentController@updateView'));
+Route::get('assessment/update/{id}', ['before'=>'student', 'uses'=>'AssessmentController@updateView']);
 
 // Get About Us page
-Route::get('/aboutus',function(){
+Route::get('/aboutus', function () {
     $theme = Theme::uses('site')->layout('default');
     $theme->appendTitle('- About Us');
+
     return $theme->scope('about.about')->render();
 });
 
 // Get About TOS page.
-Route::get('/about/tos',function(){
+Route::get('/about/tos', function () {
     $theme = Theme::uses('site')->layout('default');
     $theme->appendTitle('- Terms of Service');
+
     return $theme->scope('about.terms')->render();
 });
 
 //Get Contact Us Page.
-Route::get('contactus',function(){
+Route::get('contactus', function () {
     $theme = Theme::uses('site')->layout('default');
     $theme->appendTitle('- Contact Us');
+
     return $theme->scope('about.contact')->render();
 });
 
 // Go Home Redirect
-Route::get('gohome',function(){
+Route::get('gohome', function () {
     return Redirect::route('home');
 });
 // Go Dashboard Redirect
-Route::get('dash',function(){
-    return Redirect::to('http://'.Setting::get('system.dashurlshort','dashboard').'.'.Setting::get('system.siteurlshort'));
+Route::get('dash', function () {
+    return Redirect::to('http://'.Setting::get('system.dashurlshort', 'dashboard').'.'.Setting::get('system.siteurlshort'));
 });
 
 //HomePage Catcher
-Route::get('/',array('as'=>'home','uses'=>'HomeController@index'));
-
+Route::get('/', ['as'=>'home', 'uses'=>'HomeController@index']);
 
 // App::missing(function($exception)
 // {

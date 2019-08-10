@@ -10,25 +10,23 @@
  |
  */
 
+return [
 
-return array(
+    'schoolname'=> 'Jaffna Hindu College',
 
+    'schoolnameabbr' => 'JHC',
 
-    "schoolname"=>"Jaffna Hindu College",
+    'schooladdress'=> 'Jaffna',
 
-    "schoolnameabbr" => "JHC",
+    'logo_src' => 'img/logo.png',
 
-    "schooladdress"=>"Jaffna",
+    'adminsitename' => 'JHC - eLearning Admin',
 
-    "logo_src" => "img/logo.png",
+    'dashurl'=> 'dash.edlara.test',
 
-    "adminsitename" => "JHC - eLearning Admin",
+    'cache'=> '30',
 
-    "dashurl"=>"dash.edlara.test",
+    'dashurlshort'=> 'dash',
 
-    "cache"=>'30',
-
-    "dashurlshort"=>'dash',
-
-    "siteurlshort"=>'edlara.test'
-);
+    'siteurlshort'=> 'edlara.test',
+];

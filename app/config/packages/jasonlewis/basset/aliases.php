@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
 
     /*
     |--------------------------------------------------------------------------
@@ -30,9 +30,9 @@ return array(
     |
     */
 
-    'assets' => array(),
+    'assets' => [],
 
-    'filters' => array(
+    'filters' => [
 
         /*
         |--------------------------------------------------------------------------
@@ -44,10 +44,9 @@ return array(
         |
         */
 
-        'Less' => array('LessFilter', function($filter)
-        {
+        'Less' => ['LessFilter', function ($filter) {
             $filter->whenAssetIs('.*\.less')->findMissingConstructorArgs();
-        }),
+        }, ],
 
         /*
         |--------------------------------------------------------------------------
@@ -59,10 +58,9 @@ return array(
         |
         */
 
-        'Sass' => array('Sass\ScssFilter', function($filter)
-        {
+        'Sass' => ['Sass\ScssFilter', function ($filter) {
             $filter->whenAssetIs('.*\.(sass|scss)')->findMissingConstructorArgs();
-        }),
+        }, ],
 
         /*
         |--------------------------------------------------------------------------
@@ -74,10 +72,9 @@ return array(
         |
         */
 
-        'CoffeeScript' => array('CoffeeScriptFilter', function($filter)
-        {
+        'CoffeeScript' => ['CoffeeScriptFilter', function ($filter) {
             $filter->whenAssetIs('.*\.coffee')->findMissingConstructorArgs();
-        }),
+        }, ],
 
         /*
         |--------------------------------------------------------------------------
@@ -89,10 +86,9 @@ return array(
         |
         */
 
-        'CssMin' => array('CssMinFilter', function($filter)
-        {
+        'CssMin' => ['CssMinFilter', function ($filter) {
             $filter->whenAssetIsStylesheet()->whenProductionBuild()->whenClassExists('CssMin');
-        }),
+        }, ],
 
         /*
         |--------------------------------------------------------------------------
@@ -104,10 +100,9 @@ return array(
         |
         */
 
-        'JsMin' => array('JSMinFilter', function($filter)
-        {
+        'JsMin' => ['JSMinFilter', function ($filter) {
             $filter->whenAssetIsJavascript()->whenProductionBuild()->whenClassExists('JSMin');
-        }),
+        }, ],
 
         /*
         |--------------------------------------------------------------------------
@@ -118,11 +113,10 @@ return array(
         |
         */
 
-        'UriRewriteFilter' => array('UriRewriteFilter', function($filter)
-        {
+        'UriRewriteFilter' => ['UriRewriteFilter', function ($filter) {
             $filter->setArguments(public_path());
-        })
+        }, ],
 
-    )
+    ],
 
-);
+];

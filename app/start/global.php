@@ -11,14 +11,14 @@
 |
 */
 
-ClassLoader::addDirectories(array(
+ClassLoader::addDirectories([
 
-	app_path().'/commands',
-	app_path().'/controllers',
-	app_path().'/models',
-	app_path().'/database/seeds',
+    app_path().'/commands',
+    app_path().'/controllers',
+    app_path().'/models',
+    app_path().'/database/seeds',
   app_path().'/events',
-));
+]);
 
 /*
 |--------------------------------------------------------------------------
@@ -48,9 +48,8 @@ Log::useDailyFiles(storage_path().'/logs/'.$logFile);
 |
 */
 
-App::error(function(Exception $exception, $code)
-{
-	Log::error($exception);
+App::error(function (Exception $exception, $code) {
+    Log::error($exception);
 });
 
 /*
@@ -64,9 +63,8 @@ App::error(function(Exception $exception, $code)
 |
 */
 
-App::down(function()
-{
-	return Response::make("Be right back!", 503);
+App::down(function () {
+    return Response::make('Be right back!', 503);
 });
 $publicdir = __DIR__.'/../../public/';
 require app_path().'/filters.php';
@@ -82,8 +80,7 @@ require app_path().'/filters.php';
 |
 */
 
-Basset::collection('bootstrap', function($collection)
-{
+Basset::collection('bootstrap', function ($collection) {
     $collection->add('../public/css/bootstrap.min.css');
     $collection->add('../public/css/bootstrap-responsive.min.css');
     $collection->add('../public/js/jquery-1.9.0.min.js');
@@ -93,8 +90,7 @@ Basset::collection('bootstrap', function($collection)
     $collection->add('../public/js/additional-methods.min.js');
 });
 
-Basset::collection('grans', function($collection)
-{
+Basset::collection('grans', function ($collection) {
     // Collection definition.
     $collection->add('../public/css/system/main.css');
 });

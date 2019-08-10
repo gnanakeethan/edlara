@@ -11,6 +11,6 @@
 |
 */
 
-Artisan::add(new CreateTutorials);
-Artisan::add(new CreateUsersTable);
-Artisan::add(new CreateAssessments);
+Artisan::add(new CreateTutorials());
+Artisan::add(new CreateUsersTable());
+Artisan::add(new CreateAssessments());
