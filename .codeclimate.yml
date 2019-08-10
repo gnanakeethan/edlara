@@ -25,4 +25,9 @@ checks:
     config:
       threshold: 8
 exclude_patterns:
+  - "**/*jquery*.js"
+  - "**/*select2*.js"
+  - "**/*.map"
+  - "**/*impress*"
+  - "public/lib/**"
   - "app/config/**"
